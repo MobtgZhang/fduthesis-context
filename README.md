@@ -8,7 +8,7 @@
 + `bodymatter`: 正文
 + `backmatter`: 后记
 + `fduthesis.lmtx`: 主文件
-+ `fduthesis.mikv`: ConTEXt宏包
++ `fduthesis_env.mikv`: ConTEXt宏包
 + `references.bib`: 参考文献
 使用示例：
 ```tex

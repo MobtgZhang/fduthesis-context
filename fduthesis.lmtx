@@ -1,3 +1,4 @@
+\environment fduthesis_env
 \startproduct fduthesis
 \project project_fduthesis
 \mainlanguage[cn]
@@ -10,7 +11,7 @@
     % 指导成员小组
     \input frontmatter/supervisors
     % 目录
-    \TOC{目录}
+    \input frontmatter/toc
     % 中文摘要
     \input frontmatter/abstract_cn
     % 英文摘要
@@ -20,26 +21,26 @@
 \stopfrontmatter
     
 \startbodymatter
-    \input mainmatter/ch01
-    \input mainmatter/ch02
-    \input mainmatter/ch03
-    \input mainmatter/ch04
-    \input mainmatter/ch05
-    \input mainmatter/ch06
+    \input bodymatter/ch01
+    \input bodymatter/ch02
+    \input bodymatter/ch03
+    \input bodymatter/ch04
+    \input bodymatter/ch05
+    \input bodymatter/ch06
 \stopbodymatter
 
 \startbackmatter
     % 附录
-    \input mainmatter/appendix
+    \input backmatter/appendix
     % 参考文献
     \title{参考文献}
     \placelistofpublications
     % 攻读学位期间发表的学术论文
-    \input mainmatter/publications
+    \input backmatter/publications
     % 致谢
-    \input mainmatter/acknowledgements
+    \input backmatter/acknowledgements
     % 原创性声明
-    \input mainmatter/declarations
+    \input backmatter/declarations
 \stopbackmatter
 
 \startappendices

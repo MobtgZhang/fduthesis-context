@@ -1,6 +1,8 @@
 all:
+	# export OSFONTDIR=/usr/share/fonts/
+	# mtxrun --script fonts --reload
 	context fduthesis.lmtx
 clean:
-	rm 	fduthesis.log
-	rm 	fduthesis.tuc
+	rm 	*.log
+	rm 	*.tuc
 	
