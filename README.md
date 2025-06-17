@@ -7,14 +7,60 @@
 + `frontmatter`: 前言
 + `bodymatter`: 正文
 + `backmatter`: 后记
-
++ `fduthesis.lmtx`: 主文件
++ `fduthesis.mikv`: ConTEXt宏包
++ `references.bib`: 参考文献
 使用示例：
 ```tex
+\startproduct fduthesis
+\project project_fduthesis
+\mainlanguage[cn]
+\usemodule[zhfonts]
+\usebtxdataset[references.bib]
 \starttext
-    \input{frontmatter}
-    \input{bodymatter}
-    \input{backmatter}
+\startfrontmatter
+    % 封面
+    \input frontmatter/cover
+    % 指导成员小组
+    \input frontmatter/supervisors
+    % 目录
+    \TOC{目录}
+    % 中文摘要
+    \input frontmatter/abstract_cn
+    % 英文摘要
+    \input frontmatter/abstract_en
+    % 符号表
+    \input frontmatter/symbols
+\stopfrontmatter
+    
+\startbodymatter
+    \input mainmatter/ch01
+    \input mainmatter/ch02
+    \input mainmatter/ch03
+    \input mainmatter/ch04
+    \input mainmatter/ch05
+    \input mainmatter/ch06
+\stopbodymatter
+
+\startbackmatter
+    % 附录
+    \input mainmatter/appendix
+    % 参考文献
+    \title{参考文献}
+    \placelistofpublications
+    % 攻读学位期间发表的学术论文
+    \input mainmatter/publications
+    % 致谢
+    \input mainmatter/acknowledgements
+    % 原创性声明
+    \input mainmatter/declarations
+\stopbackmatter
+
+\startappendices
+\null
+\stopappendices
 \stoptext
+\stopproduct
 ```
 
 ## 重要提醒
