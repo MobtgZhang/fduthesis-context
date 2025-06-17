@@ -1,0 +1,75 @@
+\startenvironment fduthesis_env
+\usemodule[zhfonts]
+\definefont[kaiti][name:kaiti]
+
+\usecolors[svg]
+% 设置字体
+% 设置主字体族：西文使用 Times，中文使用 SimSun
+\definefontfamily [mainface] [rm] [Times New Roman]
+\definefontfamily [mainface] [ss] [Times New Roman]
+\definefontfamily [mainface] [tt] [Courier New]
+
+% 中文字体设置：SimSun，宋体
+\definefallbackfamily [mainface] [rm] [SimSun] [range={cjk}, force=yes]
+
+% 应用该字体族
+\setupbodyfont[mainface, 10pt]
+
+% 关闭页码，后面会在页眉设置页码
+\setuppagenumbering[location=]
+
+% 书签
+\setupinteractionscreen[option=bookmark]
+\placebookmarks[title,chapter,section][chapter]
+% 版式
+\setuppapersize[A4][A4]
+\setuplayout[backspace=2.5cm,width=16.5cm,
+             topspace=1.5cm,header=1.5cm,
+             height=27.2cm,footer=1cm]
+% 图片目录
+\setupexternalfigures[directory={./figures}]
+% 段落首行缩进、行间距
+\setupindenting[first,always,2em]
+% 汉化
+\setuplabeltext[en][chapter={第 , 章\kern.5em}]
+\setuplabeltext[en][figure={图 }]
+\setuplabeltext[en][table={表 }]
+\setupheadtext[en][pubs={\bfc 参考文献}]
+\setupheadtext[en][content={\bfc 目录}]
+% 标题设置
+\setupheads[indentnext=yes]
+\setuphead[title][incrementnumber=list]
+\setuphead
+  [title,chapter]
+  [style=\bfb,header=empty,footer=empty,before=,after={\blank[2*line]},align=center]
+\setuphead[chapter][alternative=inmargin]
+\setuphead[subject,section][style=\bfa,before={\blank},after={\blank}]
+\setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
+
+% 页眉：通用
+\startsetups HeaderFooter
+\setupheadertexts[][pagenumber][pagenumber][]
+\setupheader[style=\tfx]
+\stopsetups
+% 页眉：body 部分
+\startsetups BodyHeaderFooter
+\def\CurrentChapter{%
+  第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
+}
+\def\CurrentSection{%
+  \headnumber[section]%
+  \hbox to 2em{}%
+  \getmarking[section]%
+}
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\setupheader[style=\tfx]
+\stopsetups
+
+% 脚注里的中文断行
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][textstyle=\bold,setups={footnote:hanzi}]
+\setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
+
+\stopenvironment

@@ -1,7 +1,7 @@
 \environment fduthesis_env
 \startproduct fduthesis
 \project project_fduthesis
-\mainlanguage[cn]
+
 \usemodule[zhfonts]
 \usebtxdataset[references.bib]
 \starttext
@@ -10,8 +10,14 @@
     \input frontmatter/cover
     % 指导成员小组
     \input frontmatter/supervisors
+    \setuppagenumber[number=1]
+    \setupuserpagenumber[numberconversion=romannumerals]
+    \setups{FrontHeaderFooter}
     % 目录
     \input frontmatter/toc
+    \setuppagenumber[number=1]
+    \setupuserpagenumber[numberconversion=romannumerals]
+    \setups{FrontHeaderFooter}
     % 中文摘要
     \input frontmatter/abstract_cn
     % 英文摘要
@@ -21,6 +27,9 @@
 \stopfrontmatter
     
 \startbodymatter
+    \setuppagenumber[number=1]
+    \setupuserpagenumber[numberconversion=number]
+    \setups{BodyHeaderFooter}
     \input bodymatter/ch01
     \input bodymatter/ch02
     \input bodymatter/ch03
