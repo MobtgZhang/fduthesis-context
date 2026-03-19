@@ -1,59 +1,88 @@
 \environment fduthesis_env
-\startproduct fduthesis
-\project project_fduthesis
 
-\usemodule[zhfonts]
+\startproduct fduthesis
+
+% ====================================================================
+%  论文信息配置（请根据实际情况修改以下内容）
+% ====================================================================
+\setvariables [thesis] [
+  type=doctor,           % doctor / master / bachelor
+  degree=academic,       % academic / professional
+  secret-level=none,     % none / 秘密五年 / 机密十年 / 绝密永久
+  secret-year={},
+  school-id={10246},
+  student-id={24000240000},
+  title={复旦大学博士学位论文 Typst 模板},
+  title-en={Typst Template for Fudan University Doctoral Thesis},
+  author={张三},
+  author-en={Zhang San},
+  department={计算机科学技术学院},
+  major={计算机科学与技术},
+  supervisor={李四\quad 教授},
+  date={2026 年 3 月 19 日},
+  keywords={深度学习，自然语言处理，预训练模型，文本分类},
+  keywords-en={deep learning, natural language processing, pre-trained model, text classification},
+  clc={TP391},
+  instructors={李四\quad 教授\par 王五\quad 副教授\par 赵六\quad 教授},
+]
+
 \usebtxdataset[references.bib]
+
 \starttext
+
+% ====================================================================
+%  前置部分
+% ====================================================================
 \startfrontmatter
-    % 封面
-    \input frontmatter/cover
-    % 指导成员小组
-    \input frontmatter/supervisors
-    \setuppagenumber[number=1]
-    \setupuserpagenumber[numberconversion=romannumerals]
-    \setups{FrontHeaderFooter}
-    % 目录
-    \input frontmatter/toc
-    \setuppagenumber[number=1]
-    \setupuserpagenumber[numberconversion=romannumerals]
-    \setups{FrontHeaderFooter}
-    % 中文摘要
-    \input frontmatter/abstract_cn
-    % 英文摘要
-    \input frontmatter/abstract_en
-    % 符号表
-    \input frontmatter/symbols
+
+  \input frontmatter/cover
+  \input frontmatter/supervisors
+
+  \setuppagenumber[number=1]
+  \setupuserpagenumber[numberconversion=romannumerals]
+  \setups{FrontHeaderFooter}
+
+  \input frontmatter/toc
+  \input frontmatter/abstract_cn
+  \input frontmatter/abstract_en
+  \input frontmatter/symbols
+
 \stopfrontmatter
-    
+
+% ====================================================================
+%  正文部分
+% ====================================================================
 \startbodymatter
-    \setuppagenumber[number=1]
-    \setupuserpagenumber[numberconversion=number]
-    \setups{BodyHeaderFooter}
-    \input bodymatter/ch01
-    \input bodymatter/ch02
-    \input bodymatter/ch03
-    \input bodymatter/ch04
-    \input bodymatter/ch05
-    \input bodymatter/ch06
+
+  \setuppagenumber[number=1]
+  \setupuserpagenumber[numberconversion=number]
+  \setups{BodyHeaderFooter}
+
+  \input bodymatter/ch01
+  \input bodymatter/ch02
+  \input bodymatter/ch03
+  \input bodymatter/ch04
+  \input bodymatter/ch05
+
 \stopbodymatter
 
+% ====================================================================
+%  后置部分
+% ====================================================================
 \startbackmatter
-    % 附录
-    \input backmatter/appendix
-    % 参考文献
-    \title{参考文献}
-    \placelistofpublications
-    % 攻读学位期间发表的学术论文
-    \input backmatter/publications
-    % 致谢
-    \input backmatter/acknowledgements
-    % 原创性声明
-    \input backmatter/declarations
+
+  \setups{BackmatterHeaderFooter}
+
+  \title{参考文献}
+  \placebtxrendering
+
+  \input backmatter/appendix
+  \input backmatter/publications
+  \input backmatter/acknowledgements
+  \input backmatter/declarations
+
 \stopbackmatter
 
-\startappendices
-\null
-\stopappendices
 \stoptext
+
 \stopproduct

@@ -1,13 +1,89 @@
-\chapter[Installation]{不怕命令行 }
+\startcomponent ch04
+\product fduthesis
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+\chapter{引用与参考文献}
 
-\section{任务}
+\section{参考文献管理}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+本模板使用 \ConTeXt\ 内置的参考文献系统。
+参考文献条目存放在 \type{references.bib} 文件中，采用标准 BibTeX 格式。
 
-\section{Windows 命令行}
+在主文件中通过以下命令加载文献数据库：
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+\starttyping
+\usebtxdataset[references.bib]
+\stoptyping
 
-在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+\section{引用方式}
+
+使用 \type{\cite[key]} 命令引用文献。以下是几种引用示例。
+
+Vaswani 等人提出了 Transformer 架构
+\cite[vaswani2017attention]，
+该架构完全基于自注意力机制，
+摒弃了传统的循环和卷积结构。
+在此基础上，Devlin 等人提出了 BERT 模型
+\cite[devlin2019bert]，
+通过大规模预训练实现了多项自然语言处理任务的突破。
+关于深度学习的基础理论，
+可参阅 Goodfellow 等人的著作 \cite[goodfellow2016deep]。
+
+近年来，大语言模型的研究取得了重大进展。
+Brown 等人提出的 GPT-3 \cite[brown2020gpt3]
+展示了少样本学习的强大能力。
+Liu 等人的 RoBERTa \cite[liu2019roberta]
+通过优化预训练策略进一步提升了性能。
+
+\section{文献格式}
+
+根据复旦大学论文规范，
+参考文献编排格式须符合国家标准
+GB/T 7714—2015
+《信息与文献：参考文献著录规则》。
+\ConTeXt\ 内置的 APA 风格与该标准有一定差异，
+用户可根据需要进行微调。
+
+常见的参考文献类型及其 BibTeX 格式如下：
+
+\starttyping
+% 期刊论文
+@article{key,
+  author  = {作者},
+  title   = {论文标题},
+  journal = {期刊名称},
+  year    = {2024},
+  volume  = {1},
+  pages   = {1--10},
+}
+
+% 会议论文
+@inproceedings{key,
+  author    = {作者},
+  title     = {论文标题},
+  booktitle = {会议名称},
+  year      = {2024},
+  pages     = {100--110},
+}
+
+% 图书
+@book{key,
+  author    = {作者},
+  title     = {书名},
+  publisher = {出版社},
+  year      = {2024},
+}
+\stoptyping
+
+\section{交叉引用}
+
+除了引用参考文献，还可以交叉引用公式、表格、图片和章节：
+
+\startitemize
+  \item 引用公式：\type{\in{公式}{~}[eq:crossentropy]}
+        \rightarrow\ \in{公式}{~}[eq:crossentropy]
+  \item 引用表格：\type{\in{表}{~}[tab:comparison]}
+        \rightarrow\ \in{表}{~}[tab:comparison]
+  \item 引用章节：\type{\in{第}{章}[ch01]}
+\stopitemize
+
+\stopcomponent

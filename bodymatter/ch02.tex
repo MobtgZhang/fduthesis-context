@@ -1,13 +1,82 @@
-\chapter[Installation]{不怕命令行 }
+\startcomponent ch02
+\product fduthesis
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+\chapter{文本排版}
 
-\section{任务}
+\section{字体与字号}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+根据论文规范，正文使用宋体小四号（12pt），标准字符间距，行距 20 磅。
+模板已自动配置好这些参数，用户无需手动设置。
 
-\section{Windows 命令行}
+章标题使用三号（16pt）黑体加粗居中，节标题使用四号（14pt）黑体加粗，
+小节标题使用小四号（12pt）黑体加粗。
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+模板提供了中文字号命令，可在需要时手动切换字号：
 
-在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+\starttyping
+\chuhao     % 初号 42pt
+\xiaochuhao % 小初 36pt
+\yihao      % 一号 26pt
+\erhao      % 二号 22pt
+\xiaoerhao  % 小二 18pt
+\sanhao     % 三号 16pt
+\sihao      % 四号 14pt
+\xiaosihao  % 小四 12pt（正文默认）
+\wuhao      % 五号 10.5pt
+\stoptyping
+
+\section{段落与缩进}
+
+正文段落自动首行缩进 2 个汉字宽度。
+以下是一段正文排版效果的展示。
+
+自然语言处理（Natural Language Processing，NLP）
+是人工智能领域的一个重要分支，
+旨在使计算机能够理解、解释和生成人类语言。
+随着深度学习技术的快速发展，
+基于神经网络的方法在机器翻译、文本分类、
+情感分析、问答系统等任务上取得了显著突破。
+特别是 Transformer 架构的提出，
+彻底改变了自然语言处理的研究范式。
+
+\section{列表}
+
+\subsection{无序列表}
+
+使用 \type{\startitemize} 创建无序列表：
+
+\startitemize
+  \item 第一个列表项，说明模板的基本功能。
+  \item 第二个列表项，介绍排版的注意事项。
+  \item 第三个列表项，展示列表的嵌套效果。
+    \startitemize
+      \item 嵌套的列表项 A。
+      \item 嵌套的列表项 B。
+    \stopitemize
+\stopitemize
+
+\subsection{有序列表}
+
+使用 \type{\startitemize[n]} 创建有序列表：
+
+\startitemize[n]
+  \item 准备实验数据集。
+  \item 设计模型架构。
+  \item 训练模型并调参。
+  \item 评估模型性能。
+  \item 撰写实验报告。
+\stopitemize
+
+\section{脚注}
+
+在正文中可以使用脚注\footnote{这是一个脚注的示例。脚注内容会显示在当前页面的底部。}
+来补充说明。脚注编号按页重新编号。
+
+\section{强调与特殊格式}
+
+使用 \type{\bf} 表示{\bf 粗体文本}，
+使用 \type{\it} 表示{\it 斜体文本}，
+使用 \type{\type{...}} 表示
+\type{等宽代码文本}。
+
+\stopcomponent

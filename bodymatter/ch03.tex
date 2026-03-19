@@ -1,13 +1,102 @@
-\chapter[Installation]{不怕命令行 }
+\startcomponent ch03
+\product fduthesis
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+\chapter{公式、图表与代码}
 
-\section{任务}
+\section{数学公式}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+\subsection{行内公式}
 
-\section{Windows 命令行}
+行内公式使用 \type{$...$} 标记。
+例如，梯度下降的参数更新公式为 $\theta_{t+1} = \theta_t - \alpha \nabla \mathcal{L}(\theta_t)$，
+其中 $\alpha$ 为学习率，$\nabla \mathcal{L}$ 为损失函数的梯度。
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+\subsection{行间公式}
 
-在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+行间公式使用 \type{\startformula} 环境，
+通过 \type{\placeformula} 自动编号
+（格式为"章号.公式号"）。
+
+交叉熵损失函数定义如下：
+
+\placeformula[eq:crossentropy]
+\startformula
+  \mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\left[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)\right]
+\stopformula
+
+其中 $N$ 为样本数量，$y_i \in \{0, 1\}$ 为真实标签，$\hat{y}_i$ 为模型预测概率。
+
+Softmax 函数的定义：
+
+\placeformula[eq:softmax]
+\startformula
+  \text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}, \quad i = 1, 2, \ldots, K
+\stopformula
+
+多行公式可以使用 \type{\startalign} 环境对齐：
+
+\placeformula
+\startformula
+  \startalign
+    \NC f(x) \NC = (x+1)^2                    \NR
+    \NC      \NC = x^2 + 2x + 1               \NR
+  \stopalign
+\stopformula
+
+\section{表格}
+
+表格标题置于表格上方，编号格式为"表 章号-序号"。
+以下是不同模型的性能对比表：
+
+\placetable
+  [here][tab:comparison]
+  {不同模型的性能对比}
+  {\starttabulate[|c|c|c|c|c|]
+    \HL
+    \NC {\bf 模型} \NC {\bf 准确率} \NC {\bf 精确率} \NC {\bf 召回率} \NC {\bf F1 值} \NC \NR
+    \HL
+    \NC TextCNN  \NC 0.89 \NC 0.87 \NC 0.85 \NC 0.86 \NC \NR
+    \NC BiLSTM   \NC 0.91 \NC 0.90 \NC 0.88 \NC 0.89 \NC \NR
+    \NC BERT     \NC 0.94 \NC 0.93 \NC 0.92 \NC 0.92 \NC \NR
+    \NC 本文方法 \NC {\bf 0.96} \NC {\bf 0.95} \NC {\bf 0.94} \NC {\bf 0.94} \NC \NR
+    \HL
+  \stoptabulate}
+
+可以通过 \type{\in{表}{~}[tab:comparison]} 引用表格：
+如\in{表}{~}[tab:comparison]所示，
+本文方法在各项指标上均优于基线模型。
+
+\section{图片}
+
+图片标题置于图片下方，编号格式为"图 章号-序号"。
+将图片文件放入 \type{figures/} 目录，使用以下方式插入：
+
+\starttyping
+\placefigure
+  [here][fig:architecture]
+  {模型整体架构图}
+  {\externalfigure[architecture][width=0.8\textwidth]}
+\stoptyping
+
+引用方式：\type{\in{图}{~}[fig:architecture]}。
+
+\section{代码}
+
+使用 \type{\starttyping} 环境排版代码块：
+
+\starttyping
+import torch
+import torch.nn as nn
+
+class TextClassifier(nn.Module):
+    def __init__(self, vocab_size, embed_dim, num_classes):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, embed_dim)
+        self.fc = nn.Linear(embed_dim, num_classes)
+
+    def forward(self, x):
+        x = self.embedding(x).mean(dim=1)
+        return self.fc(x)
+\stoptyping
+
+\stopcomponent

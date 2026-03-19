@@ -1,75 +1,535 @@
 \startenvironment fduthesis_env
-\usemodule[zhfonts]
-\definefont[kaiti][name:kaiti]
 
-\usecolors[svg]
-% 设置字体
-% 设置主字体族：西文使用 Times，中文使用 SimSun
-\definefontfamily [mainface] [rm] [Times New Roman]
-\definefontfamily [mainface] [ss] [Times New Roman]
-\definefontfamily [mainface] [tt] [Courier New]
+% ====================================================================
+%  复旦大学学位论文 ConTeXt 模板 —— 环境定义
+%  支持本科 / 硕士 / 博士学位论文
+%  遵循《复旦大学博士、硕士学位论文规范（2024 年 10 月修订版）》
+% ====================================================================
 
-% 中文字体设置：SimSun，宋体
-\definefallbackfamily [mainface] [rm] [SimSun] [range={cjk}, force=yes]
+% --------------------------------------------------------------------
+%  一、论文信息变量（用户在主文件中通过 \setvariables 覆盖默认值）
+% --------------------------------------------------------------------
+\setvariables [thesis] [
+  type=master,           % doctor / master / bachelor
+  degree=academic,       % academic / professional
+  secret-level=none,     % none / 秘密 / 机密 / 绝密
+  secret-year={},
+  school-id={10246},
+  student-id={},
+  title={},
+  title-en={},
+  author={},
+  author-en={},
+  department={},
+  major={},
+  supervisor={},
+  date={},
+  keywords={},
+  keywords-en={},
+  clc={},
+  instructors={},
+]
 
-% 应用该字体族
-\setupbodyfont[mainface, 10pt]
-
-% 关闭页码，后面会在页眉设置页码
-\setuppagenumbering[location=]
-
-% 书签
-\setupinteractionscreen[option=bookmark]
-\placebookmarks[title,chapter,section][chapter]
-% 版式
+% --------------------------------------------------------------------
+%  二、纸张与页面版式
+%  A4 纸，上下 2.54 cm、左右 3.18 cm（Word 默认值）
+% --------------------------------------------------------------------
 \setuppapersize[A4][A4]
-\setuplayout[backspace=2.5cm,width=16.5cm,
-             topspace=1.5cm,header=1.5cm,
-             height=27.2cm,footer=1cm]
-% 图片目录
-\setupexternalfigures[directory={./figures}]
-% 段落首行缩进、行间距
-\setupindenting[first,always,2em]
-% 汉化
-\setuplabeltext[en][chapter={第 , 章\kern.5em}]
-\setuplabeltext[en][figure={图 }]
-\setuplabeltext[en][table={表 }]
-\setupheadtext[en][pubs={\bfc 参考文献}]
-\setupheadtext[en][content={\bfc 目录}]
-% 标题设置
-\setupheads[indentnext=yes]
-\setuphead[title][incrementnumber=list]
-\setuphead
-  [title,chapter]
-  [style=\bfb,header=empty,footer=empty,before=,after={\blank[2*line]},align=center]
-\setuphead[chapter][alternative=inmargin]
-\setuphead[subject,section][style=\bfa,before={\blank},after={\blank}]
-\setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
 
-% 页眉：通用
-\startsetups HeaderFooter
-\setupheadertexts[][pagenumber][pagenumber][]
-\setupheader[style=\tfx]
-\stopsetups
-% 页眉：body 部分
-\startsetups BodyHeaderFooter
-\def\CurrentChapter{%
-  第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
-}
-\def\CurrentSection{%
-  \headnumber[section]%
-  \hbox to 2em{}%
-  \getmarking[section]%
-}
-\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
-\setupheader[style=\tfx]
-\stopsetups
+\setuplayout[
+  backspace=3.18cm,
+  width=middle,
+  topspace=2.54cm,
+  header=1.2cm,
+  headerdistance=0.15cm,
+  footer=1.0cm,
+  footerdistance=0.4cm,
+  height=middle,
+  cutspace=3.18cm,
+  bottomspace=2.54cm,
+]
 
-% 脚注里的中文断行
-\startsetups footnote:hanzi
+\setuppagenumbering[alternative=doublesided,location=]
+
+% --------------------------------------------------------------------
+%  三、字体配置
+%  西文 Times New Roman（TeX Gyre Termes 替代）
+%  中文：思源宋体 CN（Source Han Serif CN），思源黑体 CN（Source Han Sans CN）
+%  正文 12pt（小四号）
+%
+%  字体配置说明：
+%    默认使用 Source Han Serif CN / Source Han Sans CN（Adobe 思源宋体/黑体）
+%    也可替换为 Noto Serif SC, SimSun 等，更换后运行：
+%    mtxrun --script fonts --reload
+% --------------------------------------------------------------------
+
+\definefontfamily [mainface] [rm] [Source Han Serif CN]
+\definefontfamily [mainface] [ss] [Source Han Sans CN]
+\definefontfamily [mainface] [tt] [Source Han Sans CN]
+\definefontfamily [mainface] [mm] [Latin Modern Math]
+
+\setupbodyfont[mainface, 12pt]
 \setscript[hanzi]
+
+% 中文字号命令
+\define\chuhao    {\switchtobodyfont[42pt]}
+\define\xiaochuhao{\switchtobodyfont[36pt]}
+\define\yihao     {\switchtobodyfont[26pt]}
+\define\xiaoyihao {\switchtobodyfont[24pt]}
+\define\erhao     {\switchtobodyfont[22pt]}
+\define\xiaoerhao {\switchtobodyfont[18pt]}
+\define\sanhao    {\switchtobodyfont[16pt]}
+\define\xiaosanhao{\switchtobodyfont[15pt]}
+\define\sihao     {\switchtobodyfont[14pt]}
+\define\xiaosihao {\switchtobodyfont[12pt]}
+\define\wuhao     {\switchtobodyfont[10.5pt]}
+\define\xiaowuhao {\switchtobodyfont[9pt]}
+\define\liuhao    {\switchtobodyfont[7.5pt]}
+
+% --------------------------------------------------------------------
+%  四、行距与段落
+%  规范：行距 20 磅，首行缩进 2 字符
+% --------------------------------------------------------------------
+\setupinterlinespace[line=20pt]
+\setupindenting[first, always, 2em]
+\setupalign[hanging]
+\setuptolerance[verytolerant, stretch]
+
+% --------------------------------------------------------------------
+%  五、中文本地化标签
+% --------------------------------------------------------------------
+\setuplabeltext  [en] [chapter={第\;,\;章}]
+\setuplabeltext  [en] [figure={图\;}]
+\setuplabeltext  [en] [table={表\;}]
+\setupheadtext   [en] [content={目\quad 录}]
+\setupheadtext   [en] [pubs={参考文献}]
+
+% --------------------------------------------------------------------
+%  六、章节标题样式
+%  章标题：三号（16pt）黑体加粗，居中
+%  节标题：四号（14pt）黑体加粗
+%  小节标题：小四号（12pt）黑体加粗
+% --------------------------------------------------------------------
+\setupheads[indentnext=yes]
+
+\setuphead [title] [
+  style=\bf,
+  align=center,
+  before={\blank[40pt]\switchtobodyfont[16pt]},
+  after={\blank[20pt]\switchtobodyfont[12pt]},
+  header=empty,
+  incrementnumber=list,
+]
+
+\setuphead [chapter] [
+  style=\bf,
+  align=center,
+  before={\page\blank[40pt]\switchtobodyfont[16pt]},
+  after={\blank[20pt]\switchtobodyfont[12pt]},
+  header=empty,
+  number=yes,
+]
+
+\setuphead [section] [
+  style=\bf,
+  before={\blank[20pt]\switchtobodyfont[14pt]},
+  after={\blank[10pt]\switchtobodyfont[12pt]},
+]
+
+\setuphead [subsection] [
+  style=\bf,
+  before={\blank[10pt]},
+  after={\blank[10pt]},
+]
+
+\setuphead [subsubsection] [
+  style={\bf},
+  before={\blank[10pt]},
+  after={\blank[10pt]},
+]
+
+\setuphead[section]     [sectionsegments=chapter:section]
+\setuphead[subsection]  [sectionsegments=chapter:subsection]
+
+% --------------------------------------------------------------------
+%  七、页眉页脚
+%  参考 fduthesis (stone-zeng) 模板：
+%    正文：偶数页左页眉=章标题，奇数页右页眉=节标题
+%    前置/后置部分：页眉显示对应标题
+%    页脚居中显示页码，页眉下方有横线
+% --------------------------------------------------------------------
+
+\define\FDUHeaderRule{%
+  \nointerlineskip
+  \vskip3pt
+  \blackrule[width=\makeupwidth, height=0.4pt]%
+}
+
+\startsetups FrontHeaderFooter
+  \setupheadertexts[text]
+    [{\tfx\getmarking[title]}]
+    [{\tfx\getmarking[title]}]
+    []
+    []
+  \setupheader[text][after=\FDUHeaderRule]
+  \setupfootertexts[text]
+    [\midaligned{\tfx\userpagenumber}]
+    []
+    []
+    [\midaligned{\tfx\userpagenumber}]
 \stopsetups
-\setupnote[footnote][textstyle=\bold,setups={footnote:hanzi}]
-\setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
+
+\startsetups BodyHeaderFooter
+  \setupheadertexts[text]
+    [{\tfx 第\headnumber[chapter]章\kern1em\getmarking[chapter]}]
+    [{\tfx\headnumber[section]\kern1em\getmarking[section]}]
+    []
+    []
+  \setupheader[text][after=\FDUHeaderRule]
+  \setupfootertexts[text]
+    [\midaligned{\tfx\userpagenumber}]
+    []
+    []
+    [\midaligned{\tfx\userpagenumber}]
+\stopsetups
+
+\startsetups BackmatterHeaderFooter
+  \setupheadertexts[text]
+    [{\tfx\getmarking[title]}]
+    [{\tfx\getmarking[title]}]
+    []
+    []
+  \setupheader[text][after=\FDUHeaderRule]
+  \setupfootertexts[text]
+    [\midaligned{\tfx\userpagenumber}]
+    []
+    []
+    [\midaligned{\tfx\userpagenumber}]
+\stopsetups
+
+\startsetups EmptyHeaderFooter
+  \setupheadertexts[text][][][][]
+  \setupheader[text][after=]
+  \setupfootertexts[text][][][][]
+\stopsetups
+
+% --------------------------------------------------------------------
+%  八、图表设置
+% --------------------------------------------------------------------
+\setupexternalfigures[directory={., ./figures}]
+
+\setupcaptions[
+  style=\wuhao,
+  headstyle=\bf,
+  align=center,
+  way=bychapter,
+]
+
+\setupcaption[figure][
+  prefix=yes,
+  prefixsegments=chapter,
+]
+
+\setupcaption[table][
+  prefix=yes,
+  prefixsegments=chapter,
+  location=top,
+]
+
+% --------------------------------------------------------------------
+%  代码排版（防止等宽字体内容溢出页面）
+% --------------------------------------------------------------------
+\setuptyping[
+  style=\wuhao,
+  before={\blank[6pt]},
+  after={\blank[6pt]},
+]
+
+% --------------------------------------------------------------------
+%  九、脚注
+%  规范：硕士篇末注，博士章末注；也可脚注
+% --------------------------------------------------------------------
+\setupnote[footnote][
+  way=bypage,
+  numberconversion=n,
+]
+\setupnotation[footnote][
+  way=bypage,
+]
+
+% --------------------------------------------------------------------
+%  十、书签与交叉引用
+% --------------------------------------------------------------------
+\setupinteraction[
+  state=start,
+  style=,
+  color=,
+  contrastcolor=,
+]
+\setupinteractionscreen[option=bookmark]
+\placebookmarks[title, chapter, section][chapter]
+
+% --------------------------------------------------------------------
+%  十一、数学公式编号（按章编号，如 (2.1)）
+% --------------------------------------------------------------------
+\setupformulas[way=bychapter]
+\setupnumber[formula][way=bychapter]
+
+% --------------------------------------------------------------------
+%  十二、颜色
+% --------------------------------------------------------------------
+\usecolors[svg]
+
+% --------------------------------------------------------------------
+%  十三、目录格式
+% --------------------------------------------------------------------
+\setupcombinedlist[content][
+  list={title,chapter,section,subsection},
+  alternative=c,
+]
+
+\setuplist[title][
+  style=\ss\bf,
+  before={\blank[10pt]},
+  after={\blank[10pt]},
+  margin=0em,
+]
+
+\setuplist[chapter][
+  style=\ss\bf,
+  before={\blank[10pt]},
+  margin=0em,
+  width=4em,
+]
+
+\setuplist[section][
+  margin=2em,
+  width=3em,
+]
+
+\setuplist[subsection][
+  margin=4.5em,
+  width=3.5em,
+]
+
+% --------------------------------------------------------------------
+%  十四、封面辅助宏
+% --------------------------------------------------------------------
+
+% 论文类型中文标签
+\define\FDUThesisTypeLabel{%
+  \doiftext{\getvariable{thesis}{type}}{%
+    \doif{\getvariable{thesis}{type}}{doctor}{博\;士\;学\;位\;论\;文}%
+    \doif{\getvariable{thesis}{type}}{master}{硕\;士\;学\;位\;论\;文}%
+    \doif{\getvariable{thesis}{type}}{bachelor}{本\;科\;毕\;业\;论\;文}%
+  }%
+}
+
+% 学位类型标签（本科不显示）
+\define\FDUDegreeLabel{%
+  \doifnot{\getvariable{thesis}{type}}{bachelor}{%
+    \doif{\getvariable{thesis}{degree}}{academic}{（学术学位）}%
+    \doif{\getvariable{thesis}{degree}}{professional}{（专业学位）}%
+  }%
+}
+
+% 封面信息行（标签 4em + 冒号 + 下划线值域 12em，总宽 17em 保证居中对齐）
+\define[2]\FDUCoverInfoLine{%
+  \dontleavehmode
+  \hbox to 4em{#1\hfil}：%
+  \rlap{\lower5pt\hbox{\blackrule[width=12em, height=0.4pt]}}%
+  \hbox to 12em{\hfil#2\hfil}%
+  \par
+  \blank[8pt]
+}
+
+% 封面信息行（宽标签，用于"专业学位类别（领域）"，标签 9em + 冒号 + 值域 7em = 17em）
+\define[2]\FDUCoverInfoLineWide{%
+  \dontleavehmode
+  \hbox to 9em{#1\hfil}：%
+  \rlap{\lower5pt\hbox{\blackrule[width=7em, height=0.4pt]}}%
+  \hbox to 7em{\hfil#2\hfil}%
+  \par
+  \blank[8pt]
+}
+
+% ── 封一：论文封面 ──
+\define\makecoveri{%
+  \setups{EmptyHeaderFooter}
+  \setuppagenumber[number=0]
+  \page
+  \setupheader[state=empty]
+  \setupfooter[state=empty]
+  \startalignment[center]
+    %% 密级（如有，显示在右上角）
+    \doifnot{\getvariable{thesis}{secret-level}}{none}{%
+      \startalignment[flushright]
+        {\bf 密级：\getvariable{thesis}{secret-level}\getvariable{thesis}{secret-year}}%
+      \stopalignment
+      \blank[12pt]
+    }
+    %% 学校代码与学号（右对齐，带下划线）
+    \startalignment[flushright]
+      \dontleavehmode
+      \hbox to 4em{学校代码\hfil}：%
+      \rlap{\lower5pt\hbox{\blackrule[width=8em, height=0.4pt]}}%
+      \hbox to 8em{\hfil\getvariable{thesis}{school-id}\hfil}\par
+      \blank[4pt]
+      \dontleavehmode
+      \hbox to 4em{学\hfil 号}：%
+      \rlap{\lower5pt\hbox{\blackrule[width=8em, height=0.4pt]}}%
+      \hbox to 8em{\hfil\getvariable{thesis}{student-id}\hfil}\par
+    \stopalignment
+    \blank[60pt]
+    %% 校名（使用毛笔字体图片，居中）
+    \midaligned{\externalfigure[fudan-name.png][width=10cm]}
+    \blank[20pt]
+    %% 论文类型
+    {\xiaoerhao\bf \FDUThesisTypeLabel}
+    \blank[10pt]
+    %% 学位类型
+    {\sihao \FDUDegreeLabel}
+    \blank[40pt]
+    %% 中文标题
+    {\xiaoerhao\bf \getvariable{thesis}{title}}
+    \blank[20pt]
+    %% 英文标题
+    {\sihao\bf \getvariable{thesis}{title-en}}
+    \blank[60pt]
+    %% 信息栏
+    {\sihao
+      \FDUCoverInfoLine{院\hfil 系}{\getvariable{thesis}{department}}
+      \doif{\getvariable{thesis}{degree}}{professional}{%
+        \FDUCoverInfoLineWide{专业学位类别（领域）}{\getvariable{thesis}{major}}
+      }
+      \doifnot{\getvariable{thesis}{degree}}{professional}{%
+        \FDUCoverInfoLine{专\hfil 业}{\getvariable{thesis}{major}}
+      }
+      \FDUCoverInfoLine{姓\hfil 名}{\getvariable{thesis}{author}}
+      \FDUCoverInfoLine{指导教师}{\getvariable{thesis}{supervisor}}
+      \FDUCoverInfoLine{完成日期}{\getvariable{thesis}{date}}
+    }
+  \stopalignment
+  \page
+}
+
+% ── 扉页：指导小组成员 ──
+\define\makecoverii{%
+  \setups{EmptyHeaderFooter}
+  \page
+  \setupheader[state=empty]
+  \setupfooter[state=empty]
+  \startalignment[center]
+    \blank[80pt]
+    {\sanhao\bf 指导小组成员}
+    \blank[60pt]
+    {\xiaosihao
+      \getvariable{thesis}{instructors}
+    }
+  \stopalignment
+  \page
+}
+
+% ── 封三：独创性声明与授权声明 ──
+\define\makecoveriii{%
+  \setups{EmptyHeaderFooter}
+  \page
+  \setupheader[state=empty]
+  \setupfooter[state=empty]
+  \blank[40pt]
+  \startalignment[center]
+    {\sanhao\bf 复旦大学}
+    \par
+    {\sanhao\bf 学位论文独创性声明}
+  \stopalignment
+  \blank[40pt]
+  \setupindenting[first, always, 2em]
+  \indentation
+  本人郑重声明：所呈交的学位论文，是本人在导师的指导下，
+  独立进行研究工作所取得的成果。
+  论文中除特别标注的内容外，不包含任何其他个人或机构已经发表或撰写过的研究成果。
+  对本研究做出重要贡献的个人和集体，
+  均已在论文中作了明确的声明并表示了谢意。
+  本声明的法律结果由本人承担。
+  \blank[40pt]
+  \startalignment[flushright]
+    作者签名：\underbar{\hskip6em}\hskip2em 日期：\underbar{\hskip6em}
+  \stopalignment
+  \blank[80pt]
+  \startalignment[center]
+    {\sanhao\bf 复旦大学}
+    \par
+    {\sanhao\bf 学位论文使用授权声明}
+  \stopalignment
+  \blank[40pt]
+  \indentation
+  本人完全了解复旦大学有关收藏和利用博士、硕士学位论文的规定，
+  即：学校有权收藏、使用并向国家有关部门或机构送交论文的印刷本和电子版本；
+  允许论文被查阅和借阅；
+  学校可以公布论文的全部或部分内容，
+  可以采用影印、缩印或其它复制手段保存论文。
+  涉密学位论文在解密后遵守此规定。
+  \blank[40pt]
+  \startalignment[flushright]
+    作者签名：\underbar{\hskip6em}\hskip1em 导师签名：\underbar{\hskip6em}\hskip1em 日期：\underbar{\hskip6em}
+  \stopalignment
+  \page
+}
+
+% --------------------------------------------------------------------
+%  十五、摘要环境
+% --------------------------------------------------------------------
+
+\definestartstop[abstractcn][
+  before={%
+    \title{摘\quad 要}
+    \setupindenting[first, always, 2em]
+  },
+  after={%
+    \blank[20pt]
+    \noindentation
+    {\bf 关键词：}\getvariable{thesis}{keywords}
+    \doiftext{\getvariable{thesis}{clc}}{%
+      \par\noindentation
+      {\bf 中图分类号：}\getvariable{thesis}{clc}
+    }
+    \page
+  },
+]
+
+\definestartstop[abstracten][
+  before={%
+    \title{Abstract}
+    \setupindenting[first, always, 2em]
+  },
+  after={%
+    \blank[20pt]
+    \noindentation
+    {\bf Keywords: }\getvariable{thesis}{keywords-en}
+    \doiftext{\getvariable{thesis}{clc}}{%
+      \par\noindentation
+      {\bf CLC: }\getvariable{thesis}{clc}
+    }
+    \page
+  },
+]
+
+% --------------------------------------------------------------------
+%  十六、参考文献
+%  规范：GB/T 7714—2015（ConTeXt 内置最接近的为 apa 风格）
+% --------------------------------------------------------------------
+\setupbtx[default:list][alternative=apa]
+
+% --------------------------------------------------------------------
+%  十七、附录
+% --------------------------------------------------------------------
+\definehead[appchapter][chapter]
+\setuphead[appchapter][
+  conversion=Character,
+  style={\ss\sanhao\bf},
+  align=center,
+  before={\page\blank[40pt]},
+  after={\blank[20pt]},
+]
 
 \stopenvironment

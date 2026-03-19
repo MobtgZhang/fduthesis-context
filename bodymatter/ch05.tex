@@ -1,13 +1,91 @@
-\chapter[Installation]{不怕命令行 }
+\startcomponent ch05
+\product fduthesis
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+\chapter{模板定制与注意事项}
 
-\section{任务}
+\section{切换论文类型}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+在主文件中修改 \type{type} 和 \type{degree} 参数即可切换论文类型。
 
-\section{Windows 命令行}
+博士学术学位论文：
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+\starttyping
+\setvariables [thesis] [
+  type=doctor,
+  degree=academic,
+  ...
+]
+\stoptyping
 
-在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+硕士专业学位论文：
+
+\starttyping
+\setvariables [thesis] [
+  type=master,
+  degree=professional,
+  ...
+]
+\stoptyping
+
+本科毕业论文（无学位类型区分）：
+
+\starttyping
+\setvariables [thesis] [
+  type=bachelor,
+  ...
+]
+\stoptyping
+
+\section{涉密论文设置}
+
+涉密论文需在封面右上角标注密级和保密年限。
+设置 \type{secret-level} 和 \type{secret-year} 参数即可：
+
+\starttyping
+\setvariables [thesis] [
+  secret-level={秘密},
+  secret-year={五年},
+  ...
+]
+\stoptyping
+
+\section{字体配置}
+
+模板默认使用 Source Han Serif CN（思源宋体）
+和 Source Han Sans CN（思源黑体）。
+如果系统未安装这些字体，
+可在 \type{fduthesis_env.tex} 中替换为其他字体：
+
+\starttyping
+% 替换为 Noto SC 字体
+\definefontfamily [mainface] [rm] [Noto Serif SC]
+\definefontfamily [mainface] [ss] [Noto Sans SC]
+\stoptyping
+
+替换后需执行 \type{mtxrun --script fonts --reload} 刷新字体数据库。
+
+\section{添加章节}
+
+正文各章节分别存放在 \type{bodymatter/} 目录下的独立文件中。
+添加新章节时，创建新文件
+（如 \type{bodymatter/ch06.tex}）并在主文件中加入：
+
+\starttyping
+\input bodymatter/ch06
+\stoptyping
+
+\section{注意事项}
+
+\startitemize[n]
+  \item 论文封面格式须严格按照规范标准样本制作，
+        不得随意修改封面宏的布局。
+  \item 中文论文题目不超过 30 个汉字。
+  \item 参考文献格式应符合 GB/T 7714—2015 国家标准。
+  \item 硕士论文采用篇末注，博士论文采用章末注；
+        也可适当采用脚注。
+  \item 论文须双面打印，用线装或热胶装订。
+  \item 文科硕士论文一般不少于 3 万字，博士论文不少于 10 万字。
+  \item 独创性声明和授权声明须打印后手写签名。
+\stopitemize
+
+\stopcomponent

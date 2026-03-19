@@ -1,15 +1,66 @@
-\section{附录}
+\startcomponent appendix
+\product fduthesis
 
-这里是附录的内容。
+\title{附录 A\quad 补充实验数据}
 
-\page
-\subsection{附录一}
+以下为正文中未完全展示的补充实验数据，包括不同超参数组合下模型的训练结果。
 
-这里是附录一的内容。
+\placetable
+  [here][tab:appendix-a]
+  {不同超参数组合下的实验结果}
+  {\starttabulate[|cw(2.8cm)|cw(2.5cm)|cw(2.5cm)|cw(3cm)|]
+    \HL
+    \NC {\bf 学习率} \NC {\bf 批大小} \NC {\bf 迭代轮数} \NC {\bf 准确率} \NC \NR
+    \HL
+    \NC $1\times10^{-3}$  \NC 32  \NC 50  \NC 0.910 \NC \NR
+    \NC $1\times10^{-3}$  \NC 64  \NC 50  \NC 0.923 \NC \NR
+    \NC $5\times10^{-4}$  \NC 32  \NC 80  \NC 0.935 \NC \NR
+    \NC $5\times10^{-4}$  \NC 64  \NC 80  \NC 0.941 \NC \NR
+    \NC $1\times10^{-4}$  \NC 32  \NC 100 \NC 0.948 \NC \NR
+    \NC $1\times10^{-4}$  \NC 64  \NC 100 \NC 0.962 \NC \NR
+    \HL
+  \stoptabulate}
 
-\page
-\subsection{附录二}
+由实验结果可以看出，较小的学习率配合较多的迭代轮数能够获得更好的模型性能。
+当学习率为 $1\times10^{-4}$、批大小为 64、迭代轮数为 100 时，
+模型达到最优准确率 0.962。
 
-这里是附录二的内容。
+\blank[2*line]
 
-\page
+\title{附录 B\quad 算法伪代码}
+
+以下为本文所提出的模型训练流程的伪代码描述。
+
+\starttyping
+Algorithm: Model Training
+Input:  Dataset D, learning rate lr,
+        iterations T
+Output: Trained parameters theta
+
+1. Initialize theta randomly
+2. for t = 1 to T do
+3.   Sample mini-batch B from D
+4.   Compute loss L(theta; B)
+5.   Compute gradient g = grad L(theta)
+6.   Update theta = theta - lr * g
+7. end for
+8. return theta
+\stoptyping
+
+\blank[line]
+
+以下为模型推理（预测）流程的伪代码。
+
+\starttyping
+Algorithm: Model Inference
+Input:  Test sample x,
+        trained parameters theta
+Output: Predicted label y
+
+1. Compute features h = f(x; theta)
+2. Compute logits z = W * h + b
+3. Compute probabilities p = softmax(z)
+4. return y = argmax(p)
+\stoptyping
+
+\stopcomponent

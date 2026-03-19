@@ -1,13 +1,124 @@
-\chapter[Installation]{不怕命令行 }
+\startcomponent ch01
+\product fduthesis
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+\chapter{模板简介与配置}
 
-\section{任务}
+\section{模板概述}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+fduthesis-context 是一套基于 \ConTeXt\ (LMTX) 排版系统的
+复旦大学学位论文模板，
+严格遵循《复旦大学博士、硕士学位论文规范
+（2024 年 10 月修订版）》。
+模板支持以下论文类型和学位类别：
 
-\section{Windows 命令行}
+\startitemize
+  \item 本科毕业论文（\type{type=bachelor}）
+  \item 硕士学位论文（\type{type=master}）
+  \item 博士学位论文（\type{type=doctor}）
+  \item 学术学位（\type{degree=academic}）
+  \item 专业学位（\type{degree=professional}）
+\stopitemize
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+\section{环境要求}
 
-在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+使用本模板需要安装以下软件：
+
+\startitemize[n]
+  \item {\bf TeX Live 2024} 或更新版本（包含 \ConTeXt\ LMTX）。
+  \item {\bf 中文字体}：Source Han Serif CN（思源宋体）、
+    Source Han Sans CN（思源黑体）。
+    如果系统未安装，可替换为 Noto Serif SC、SimSun 等字体，
+    并在 \type{fduthesis_env.tex} 中修改字体配置。
+  \item 安装或更换字体后，需运行 \type{mtxrun --script fonts --reload} 刷新字体数据库。
+\stopitemize
+
+\section{论文信息配置}
+
+在 \type{fduthesis.tex} 主文件的开头，
+通过 \type{\setvariables} 配置论文信息。
+以下是一个硕士学术学位论文的配置示例：
+
+\starttyping
+\setvariables [thesis] [
+  type=master,
+  degree=academic,
+  school-id={10246},
+  student-id={22110000000},
+  title={论文中文标题},
+  title-en={English Title of the Thesis},
+  author={作者姓名},
+  department={院系名称},
+  major={专业名称},
+  supervisor={导师姓名\quad 职称},
+  date={2025 年 6 月},
+  keywords={关键词一，关键词二，关键词三},
+  keywords-en={keyword1, keyword2, keyword3},
+  clc={TP391},
+  instructors={导师一\quad 教授\par 导师二\quad 副教授},
+]
+\stoptyping
+
+\section{文件结构}
+
+模板的文件组织如下：
+
+\starttyping
+fduthesis-context/
+  fduthesis.tex         % 主文件（论文信息配置与内容组织）
+  fduthesis_env.tex     % 环境定义（版式、字体、宏定义）
+  references.bib        % 参考文献数据库
+  Makefile              % 编译脚本
+  figures/              % 图片目录
+  frontmatter/          % 前置部分
+    cover.tex           %   封面（封一）
+    supervisors.tex     %   扉页（指导小组）
+    toc.tex             %   目录
+    abstract_cn.tex     %   中文摘要
+    abstract_en.tex     %   英文摘要
+    symbols.tex         %   符号与缩略语表
+  bodymatter/           % 正文部分
+    ch01.tex ~ ch05.tex %   各章内容
+  backmatter/           % 后置部分
+    appendix.tex        %   附录
+    publications.tex    %   学术论文目录
+    acknowledgements.tex%   致谢
+    declarations.tex    %   独创性声明
+\stoptyping
+
+\section{编译方法}
+
+在项目根目录执行以下命令编译论文：
+
+\starttyping
+make          % 单次编译
+make twice    % 两次编译（更新目录和交叉引用）
+make clean    % 清理辅助文件
+make distclean% 清理所有生成文件
+\stoptyping
+
+也可以直接调用 \ConTeXt\ 编译：
+
+\starttyping
+context fduthesis.tex
+\stoptyping
+
+\section{论文内容顺序}
+
+根据规范，论文内容按以下顺序编排：
+
+\startitemize[n]
+  \item 论文封面（封一）
+  \item 扉页：指导小组成员名单
+  \item 目录
+  \item 中文摘要（关键词、中图分类号）
+  \item 英文摘要（关键词、中图分类号）
+  \item 符号与缩略语表（如有）
+  \item 正文（引言、各章节）
+  \item 参考文献
+  \item 附录（如有）
+  \item 攻读学位期间发表的学术论文
+  \item 致谢
+  \item 独创性声明与授权声明（封三）
+\stopitemize
+
+\stopcomponent

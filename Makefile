@@ -1,8 +1,14 @@
+.PHONY: all twice clean distclean
+
 all:
-	# export OSFONTDIR=/usr/share/fonts/
-	# mtxrun --script fonts --reload
 	context fduthesis.tex
+
+twice:
+	context fduthesis.tex
+	context fduthesis.tex
+
 clean:
-	rm 	*.log
-	rm 	*.tuc
-	
+	rm -f *.log *.tuc *.tmp
+
+distclean: clean
+	rm -f fduthesis.pdf
